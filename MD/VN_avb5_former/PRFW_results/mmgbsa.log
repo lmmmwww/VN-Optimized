@@ -1,0 +1,34 @@
+# Project leader: Qifeng Bai, the official site of MolAICal: https://molaical.github.io or https://molaical.gitee.io #
+
+There is no suitable character encoding for reading! The default UTF-8 is used.
+Total run 3000 frames from complex.log.
+Average BOND: 6,742.0545
+Average ANGLE: 14,662.1354
+Average DIHED: 15,215.4109
+Average IMPRP: 890.3284
+Average ELECT: -51,094.2901
+Average VDW: -5,650.3438
+###############################
+
+Total run 3000 frames from protein.log.
+Average BOND: 6,683.0356
+Average ANGLE: 14,526.2288
+Average DIHED: 15,088.9407
+Average IMPRP: 883.8621
+Average ELECT: -50,186.4258
+Average VDW: -5,614.2977
+###############################
+
+Total run 3000 frames from ligand.log.
+Average BOND: 59.0189
+Average ANGLE: 135.9065
+Average DIHED: 126.4702
+Average IMPRP: 6.4663
+Average ELECT: -913.2891
+Average VDW: 4.2895
+###############################
+
+delta E(internal): -0
+delta E(electrostatic) + deltaG(sol): 5.4248
+delta E(VDW): -40.3356
+delta G binding: -34.9108  +/-  0.1262 (kcal/mol)

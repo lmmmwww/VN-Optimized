@@ -1,0 +1,68 @@
+########## Peptide Docking Workflow Input File ###############
+# Run as: $SCHRODINGER/pipeline <inputfile> 
+
+[SET:ORIGINAL_LIGANDS]
+    VARCLASS   Structures
+    FILES   ligands.mae,
+
+[SET:MODEL]
+    VARCLASS   Structures
+    FILES   VB5-mmgbsa-receptor.mae,
+
+[STAGE:GRIDGEN]
+    STAGECLASS   glide.GridgenStage
+    INPUTS   MODEL,
+    OUTPUTS   GRID,
+    GRID_CENTER   18.8149555854, 43.530674561, 44.7439216585
+    INNERBOX   10
+    OUTERBOX   31.9629531481
+    WRITEZIP   YES
+    PEPTIDE   YES
+
+[STAGE:CONF_SEARCH]
+    STAGECLASS   macromodel.ConfSearchStage
+    INPUTS   ORIGINAL_LIGANDS,
+    OUTPUTS   PREPARED_LIGANDS,
+    FORCE_FIELD   OPLS_2005
+    SOLVENT   Water
+    CUTOFF   Extended
+    CONFSEARCH_STEPS   100
+    ENERGY_WINDOW   200
+    OUTCONFS_PER_SEARCH   10
+    CONFORMER_ELIMINATION_VALUE   0.01
+
+[STAGE:PRE_DOCKING]
+    STAGECLASS   gencodes.RecombineStage
+    INPUTS   PREPARED_LIGANDS,
+    OUTPUTS   DOCKING_INPUT,
+    NUMOUT   njobs
+    OUTFORMAT   maegz
+    MIN_SUBJOB_STS   300
+    MAX_SUBJOB_STS   3000
+    UNIQUEFIELD   s_m_title
+
+[STAGE:DOCKING]
+    STAGECLASS   glide.DockingStage
+    INPUTS   DOCKING_INPUT, GRID
+    OUTPUTS   SP_OUT,
+    RECOMBINE   NO
+    PRECISION   SP
+    UNIQUEFIELD   s_m_title
+    AMIDE_MODE   penal
+    POSE_OUTTYPE   PV
+    PEPTIDE   YES
+    DOCKING_METHOD   confgen
+    POSES_PER_LIG   10
+    USECOMPMAE   YES
+    POSTDOCK_NPOSE   50
+    CANONICALIZE   no
+    MAXATOMS   300
+
+[STAGE:MMGBSA]
+    STAGECLASS   prime.MMGBSAStage
+    INPUTS   SP_OUT,
+    OUTPUTS   MMGBSA,
+
+[USEROUTS]
+    USEROUTS   MMGBSA,
+    STRUCTOUT   MMGBSA
